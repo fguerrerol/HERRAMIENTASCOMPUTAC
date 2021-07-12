@@ -24,12 +24,16 @@
 Gráficos a hacer:
 1) Gráfico entre precipitaciones y algún crímen per cápita. Explicar.
 
+  En este caso se utilizó el hurto dado que por investigaciones anteriores tenía una correlacion(Aunque muy débil) con las precipitaciones a diferencia de otros tipos de crímenes, la mayoría de investigaciones no considera a la lluvia como factor determinante sino mas bien al calor como causal de crímenes.
+
 
 2) Usar la variable BLACK para generar algo (gráfico o mapa) interesante (potencialmente interesante, puede que con estos datos no de nada).
 
+En este caso se usó la proporción de personas afroamericanas con respecto a los crímenes per cápita hallando que la creencia popular que a mayor personas afroamericanas más crímenes no tiene asidero.
 
 3) Mapa que avance en el tiempo por mes de precipitaciones y de uno de los crímenes per cápita (Properties > Temporal después de haber hecho un coropletico o heatmap. Ver: https://www.qgistutorials.com/en/docs/3/animating_time_series.html. Generar variable de date con función make_date y las variables, year, month y day. Ojo que ya existe la variable date y salta error si le ponen el mismo nombre). En heatmap, poner como transparente cuando es 0 la variable. 
 
+En este caso se utilizaron 2 mapas cloropléticos.
 
 Se entregan 3 archivos en GitHub (Poner link en la entrega de la tarea):
 
