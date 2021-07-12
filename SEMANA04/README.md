@@ -33,7 +33,7 @@ En este caso se usó la proporción de personas afroamericanas con respecto a lo
 
 3) Mapa que avance en el tiempo por mes de precipitaciones y de uno de los crímenes per cápita (Properties > Temporal después de haber hecho un coropletico o heatmap. Ver: https://www.qgistutorials.com/en/docs/3/animating_time_series.html. Generar variable de date con función make_date y las variables, year, month y day. Ojo que ya existe la variable date y salta error si le ponen el mismo nombre). En heatmap, poner como transparente cuando es 0 la variable. 
 
-En este caso se utilizaron 2 mapas cloropléticos.
+En este caso se utilizaron 2 mapas temporales cloropléticos los cuales se encuentran en la carpeta Temporal-Maps.
 
 Se entregan 3 archivos en GitHub (Poner link en la entrega de la tarea):
 
@@ -41,4 +41,4 @@ LaTeX con consignas 1 y 2
 
 GIF con consigna 3.
 
-Archivo .py (Inicial.py) para bajar lo de weather para los zipcodes correspondientes.
+Archivo .py (Inicial.py) para bajar lo de weather para los zipcodes correspondientes. (Se encuentra en carpeta principal)
