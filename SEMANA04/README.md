@@ -41,4 +41,4 @@ LaTeX con consignas 1 y 2
 
 GIF con consigna 3.
 
-Archivo .py (Inicial.py) para bajar lo de weather para los zipcodes correspondientes. (Se encuentra en carpeta principal)
+Archivo .py (Inicial.py) para bajar lo de weather para los zipcodes correspondientes. (Se encuentra en carpeta principal), La computadora donde se realizó el archivo tiene de nombre de Usuario "apple" por ende aparece como author en el file.
