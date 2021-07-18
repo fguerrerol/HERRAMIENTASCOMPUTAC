@@ -1,5 +1,6 @@
-Parte 2 del trabajo.
+Parte 2 del trabajo.\
   Contenidos.-
   
-  -Código R
+  -Código R\
+  
   -Código STATA
