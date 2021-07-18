@@ -1,3 +1,6 @@
+## Herrameintas computacionales 
+#Desarrollado por Amaya Elard y Guerrero Francisco
+
 #Load Libraries
 library("ggplot2")
 library("tibble")
@@ -12,6 +15,7 @@ library("maps")
 library("mapproj")
 
 #Cambiar directorio
+#Importante cambiar directorio para apuntar a la carpeta donde se va a trabajar
 #setwd("/Users/apple/Documents/MEcon/Trim2/Herramientas/Semana-05/Trabajo")
 
 #Check working directory
@@ -23,10 +27,14 @@ df <- read.csv("data/gapminder-data.csv")
 df2 <- read.csv("data/xAPI-Edu-Data.csv")
 df3 <- read.csv("data/LoanStats.csv")
 
-#Summary of the three datasets
+#Recabamos datos básicos de los respectivos CSV
 str(df)
 str(df2)
 str(df3)
+
+
+#A continuacion las líneas siguiente de código elaboraran los gráficos
+# Estos gráficos están en el mismo orden que lso gráficos representados en el LaTEX/ PDF
 
 #Gráfico 1
 ## Gráfico antiguo
@@ -136,5 +144,6 @@ pd4 <- pd3+theme(axis.title=element_text(size=15,color="cadetblue4",
   ggtitle("BMI female vs BMI Male")
 pd4
 
+#End
 
 
