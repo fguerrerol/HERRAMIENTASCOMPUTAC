@@ -10,7 +10,6 @@
 * Stata 16.0
 
 ****************************
-	
 global DATA = "/Users/apple/Downloads/videos 2 y 3 2/data" 
 cd "$DATA"
 
@@ -88,10 +87,10 @@ spmap crimecount using coord_ls, id(id) clmethod(q) cln(6) title("Número de cr�
 
 generate Cper1000 = (crimecount/Pop_2001)*1000
 
-
+format Cper1000 %12.1f
 spmap Cper1000 using coord_ls, id(id) clmethod(q) cln(5) title("Hurto reportado por 1000 habitantes") legend(size(medium) position(5) xoffset(15.05)) fcolor(Reds2) plotregion(margin(b+15)) ndfcolor(gray) name(g2,replace)  
 
-graph export "mapa_2013.png", replace
+graph export "Stata.png", replace
 
 * Mapa de intervalos iguales
 spmap crimecount using coord_ls, id(id) clmethod(e) cln(6) title("Número de crímenes") legend(size(medium) position(5) xoffset(17.05)) fcolor(BuRd) plotregion(margin(b+15)) ndfcolor(gray)           
