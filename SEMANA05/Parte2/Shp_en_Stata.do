@@ -1,15 +1,15 @@
-/************************************************************************************
-* Tutorial basado 
-"Econometría Espacial usando Stata. Guía Teórico-Aplicada"	 					 
-Autor: Marcos Herrera (CONICET-IELDE, UNSa, Argentina)
-e-mail: mherreragomez@gmail.com
-  
-* El tutorial presenta los comandos para generar las siguientes acciones:
+****************************
+*																			   *
+*			  		  TEMA 4 - DATA VISUALIZATION - TAREA 2		   		 	   *
+*																			   *
+****************************
 
-1. Análisis exploratorio de datos espaciales:  
-	- Representación por medio de Mapas.
-	- Creación de matrices de pesos espaciales.
-*/
+* Created: 12/07/2021
+* Last edited: 18/07/2021
+* Author: Basaso en "Econometría Espacial usando Stata. Guía Teórico-Aplicada", por Marcos Herrera (mherreragomez@gmail.com)
+* Stata 16.0
+
+****************************
 	
 global DATA = "/Users/apple/Downloads/videos 2 y 3 2/data" 
 cd "$DATA"
