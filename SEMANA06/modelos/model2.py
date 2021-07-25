@@ -19,6 +19,11 @@ Group :
 With QGIS : 31608
 """
 
+# En esta sección se importa/convoca a los modulos necesarios para hacer las operaciones
+# con Qgis, básicamente tenemos la familia de procesamiento y el sistema de coordinadas 
+# de referencia, utilizamos la funcion from para solo invocar los módulos especificos 
+# de una librería
+
 from qgis.core import QgsProcessing
 from qgis.core import QgsProcessingAlgorithm
 from qgis.core import QgsProcessingMultiStepFeedback
