@@ -63,6 +63,9 @@ class Model4c(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
+        # En esta seccion reproyectamos la capa invocando al comando "native:reprojectlayer" al cual le paso los 
+        # parámetros de TARGET_CRS que especifica el tipo de ESRI sobre el cual se harán los cálculos.
+        
         alg_params = {
             'INPUT': outputs['Drop_fields_countries']['OUTPUT'],
             'OPERATION': '',
@@ -76,6 +79,7 @@ class Model4c(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
+        # Aquí usamos el comando fixgeometries para reparar desperfectos que puedan existir de la reproyeccion de la geometría
         alg_params = {
             'INPUT': outputs['Countries_reprojected']['OUTPUT'],
             'OUTPUT': parameters['Countries_fixgeo']
@@ -86,7 +90,9 @@ class Model4c(QgsProcessingAlgorithm):
         feedback.setCurrentStep(3)
         if feedback.isCanceled():
             return {}
-
+        
+        
+        #Aquí calculamos el valor del área de cada terreno en Kilometros cuadrados, usando la funcion area y dividiendo entre un millon
         alg_params = {
             'FIELD_LENGTH': 10,
             'FIELD_NAME': 'km2area',
@@ -103,6 +109,7 @@ class Model4c(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
+        #Guardamos los resultados
         alg_params = {
             'DATASOURCE_OPTIONS': '',
             'INPUT': outputs['Field-Calc']['OUTPUT'],
