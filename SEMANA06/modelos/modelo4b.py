@@ -32,6 +32,8 @@ import processing
 class Model4b(QgsProcessingAlgorithm):
 
     def initAlgorithm(self, config=None):
+        
+        #Se genera el nexo entre parámetros dentro del procesador de QGIS, al ser un ejercicio bastante largo tenemos alrededor de 20 nexos
         self.addParameter(QgsProcessingParameterFeatureSink('Centroid-Country', 'pais_centroide', type=QgsProcessing.TypeVectorPoint, createByDefault=True, supportsAppend=True, defaultValue=None))
         self.addParameter(QgsProcessingParameterFeatureSink('Extract_by_attribute', 'Extract_by_attribute', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, defaultValue=None))
         self.addParameter(QgsProcessingParameterFeatureSink('ExtractVertices', 'extract vertices', type=QgsProcessing.TypeVectorPoint, createByDefault=True, supportsAppend=True, defaultValue=None))
@@ -60,6 +62,10 @@ class Model4b(QgsProcessingAlgorithm):
         results = {}
         outputs = {}
         
+        #En estas lineas siguientes arreglaremos las geometrías de coastline.shp asi como de countries.shp ,básicamente 
+        # esto mejora la visualizacion por que existen ciertos shapefiles que se cargan con errores de visualización 
+        # en qgis
+       
         alg_params = {
             'INPUT': '/Users/apple/Documents/MEcon/Trim2/Herramientas/SEMANA06/data/ne_10m_coastline.shp',
             'OUTPUT': parameters['Fixgeo_coast']
@@ -82,7 +88,7 @@ class Model4b(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Quitar campo(s) costas
+        # Quitamos la columna scalerank por que no nos es necesaria.
         alg_params = {
             'COLUMN': ['scalerank'],
             'INPUT': outputs['Fix-Geo-Coast']['OUTPUT'],
@@ -94,7 +100,7 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(3)
         if feedback.isCanceled():
             return {}
-
+        # Encontramos los centroides usando la funcion de qgis native:centroids, esto se va a guardar en parameters['Centroid-Country']
         alg_params = {
             'ALL_PARTS': False,
             'INPUT': outputs['Fix-Geo-Countries']['OUTPUT'],
@@ -106,7 +112,7 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(4)
         if feedback.isCanceled():
             return {}
-
+        #Exportamos
         alg_params = {
             'CALC_METHOD': 0,
             'INPUT': outputs['Centroids-Country']['OUTPUT'],
@@ -118,7 +124,8 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(5)
         if feedback.isCanceled():
             return {}
-
+        
+        #Eliminamos las columans innecesarias.
         alg_params = {
             'COLUMN': ['featurecla','scalerank','LABELRANK','SOVEREIGNT','SOV_A3','ADM0_DIF','LEVEL','TYPE','ADM0_A3','GEOU_DIF','GEOUNIT','GU_A3','SU_DIF','SUBUNIT','SU_A3','BRK_DIFF','NAME','NAME_LONG','BRK_A3','BRK_NAME','BRK_GROUP','ABBREV','POSTAL','FORMAL_EN','FORMAL_FR','NAME_CIAWF','NOTE_ADM0','NOTE_BRK','NAME_SORT','NAME_ALT','MAPCOLOR7','MAPCOLOR8','APCOLOR9','MAPCOLOR13','POP_EST','POP_RANK','GDP_MD_EST','POP_YEAR','LASTCENSUS','GDP_YEAR','ECONOMY','INCOME_GRP','WIKIPEDIA','FIPS_10_','ISO_A2','ISO_A3_EH','ISO_N3','UN_A3','WB_A2','WB_A3','WOE_ID','WOE_ID_EH','WOE_NOTE','ADM0_A3_IS','ADM0_A3_US','ADM0_A3_UN','ADM0_A3_WB','CONTINENT','REGION_UN','SUBREGION','REGION_WB','NAME_LEN','LONG_LEN','ABBREV_LEN','TINY','HOMEPART','MIN_ZOOM','MIN_LABEL','MAX_LABEL','NE_ID','WIKIDATAID','NAME_AR','NAME_BN','NAME_DE','NAME_EN','NAME_ES','NAME_FR','NAME_EL','NAME_HI','NAME_HU','NAME_ID','NAME_IT','NAME_JA','NAME_KO','NAME_NL','NAME_PL','NAME_PT','NAME_RU','NAME_SV','NAME_TR','NAME_VI','NAME_ZH','MAPCOLOR9'],
             'INPUT': outputs['Add-Geometry-Attribs']['OUTPUT'],
@@ -130,7 +137,7 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(6)
         if feedback.isCanceled():
             return {}
-
+        # Usamos la funcion de cálculo vectorial grass7 para hallar la distancia entre la costa y los centroides
         alg_params = {
             'GRASS_MIN_AREA_PARAMETER': 0.0001,
             'GRASS_OUTPUT_TYPE_PARAMETER': 0,
@@ -158,7 +165,8 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(7)
         if feedback.isCanceled():
             return {}
-
+        
+        # Se estandariza la variable cat restandole una unidad
         alg_params = {
             'FIELD_LENGTH': 4,
             'FIELD_NAME': 'cat',
@@ -175,7 +183,7 @@ class Model4b(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Quitar campo(s) nearest cat
+        # Removemos las columnas innecesarias del layer , (xcoord, ycoord)
         alg_params = {
             'COLUMN': ['xcoord','ycoord'],
             'INPUT': outputs['Field-Calc-Adjust-Cat']['OUTPUT'],
@@ -187,7 +195,7 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(9)
         if feedback.isCanceled():
             return {}
-
+        # Unimos las layers RemoveFieldsCentroid y Drop-fields-nearest-cat por la columna ISO_A3
         alg_params = {
             'DISCARD_NONMATCHING': False,
             'FIELD': 'ISO_A3',
@@ -205,6 +213,8 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(10)
         if feedback.isCanceled():
             return {}
+        
+        # Removemos las columnas innecesarias de la capa resultante de la  operacion precedente
 
         alg_params = {
             'COLUMN': ['featurecla','scalerank','LABELRANK','SOVEREIGNT','SOV_A3','ADM0_DIF','LEVEL','TYPE','ADM0_A3','GEOU_DIF','GEOUNIT','GU_A3','SU_DIF','SUBUNIT','SU_A3','BRK_DIFF','NAME','NAME_LONG','BRK_A3','BRK_NAME','BRK_GROUP','ABBREV','POSTAL','FORMAL_EN','FORMAL_FR','NAME_CIAWF','NOTE_ADM0','NOTE_BRK','NAME_SORT','NAME_ALT','MAPCOLOR7','MAPCOLOR8','APCOLOR9','MAPCOLOR13','POP_EST','POP_RANK','GDP_MD_EST','POP_YEAR','LASTCENSUS','GDP_YEAR','ECONOMY','INCOME_GRP','WIKIPEDIA','FIPS_10_','ISO_A2','ISO_A3_EH','ISO_N3','UN_A3','WB_A2','WB_A3','WOE_ID','WOE_ID_EH','WOE_NOTE','ADM0_A3_IS','ADM0_A3_US','ADM0_A3_UN','ADM0_A3_WB','CONTINENT','REGION_UN','SUBREGION','REGION_WB','NAME_LEN','LONG_LEN','ABBREV_LEN','TINY','HOMEPART','MIN_ZOOM','MIN_LABEL','MAX_LABEL','NE_ID','WIKIDATAID','NAME_AR','NAME_BN','NAME_DE','NAME_EN','NAME_ES','NAME_FR','NAME_EL','NAME_HI','NAME_HU','NAME_ID','NAME_IT','NAME_JA','NAME_KO','NAME_NL','NAME_PL','NAME_PT','NAME_RU','NAME_SV','NAME_TR','NAME_VI','NAME_ZH','MAPCOLOR9','ADMIN_2','ISO_A3_2'],
@@ -217,7 +227,8 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(11)
         if feedback.isCanceled():
             return {}
-
+        
+        #Unimos las capas Vdistance y la capa precedente mediante la categoría/columna "cat"
         alg_params = {
             'DISCARD_NONMATCHING': False,
             'FIELD': 'cat',
@@ -235,7 +246,7 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(12)
         if feedback.isCanceled():
             return {}
-
+        # Se extraen los vertices del layer [ Join-Attrib-by-Field-Value]
         alg_params = {
             'INPUT': outputs['Join-Attrib-by-Field-Value']['OUTPUT'],
             'OUTPUT': parameters['ExtractVertices']
@@ -246,7 +257,7 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(13)
         if feedback.isCanceled():
             return {}
-
+        # Se extraen las filas que cumplen cierto criterio ( Distancia positiva) 
         alg_params = {
             'FIELD': 'distance',
             'INPUT': outputs['Extract-Vertixes']['OUTPUT'],
@@ -261,6 +272,8 @@ class Model4b(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
+        # Clonamos las variables cent_lat y cent_lon que representan la latitud y la longitud de los centroides
+        
         alg_params = {
             'FIELD_LENGTH': 10,
             'FIELD_NAME': 'cent_lat',
@@ -293,6 +306,7 @@ class Model4b(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
+        # Volvemos a remover columnas innecesarias para el análisis
         alg_params = {
             'COLUMN': ['fid','cat','xcoord','ycoord','fid_2','cat_2','vertex_index','vertex_part','vertex_part','_index','angle'],
             'INPUT': outputs['Field-calc-cent-lon']['OUTPUT'],
@@ -304,7 +318,8 @@ class Model4b(QgsProcessingAlgorithm):
         feedback.setCurrentStep(17)
         if feedback.isCanceled():
             return {}
-
+        
+        # Adicion de atributos geométricos a la capa
         alg_params = {
             'CALC_METHOD': 0,
             'INPUT': outputs['Remove-Fields-Centroids-lat-lon']['OUTPUT'],
@@ -317,6 +332,7 @@ class Model4b(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
+        # Duplicamos las vairalbes que indican la latitud y longitud de las costas, limitando la informacion a 10 carácteres
         alg_params = {
             'FIELD_LENGTH': 10,
             'FIELD_NAME': 'coast_lat',
@@ -349,6 +365,7 @@ class Model4b(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
+        # Removmeos las filas xcoord y y coord y finalmente exportamos lo calculado en formato csv
         alg_params = {
             'COLUMN': ['xcoord','ycoord'],
             'INPUT': outputs['Field-calc-coast-lon']['OUTPUT'],
