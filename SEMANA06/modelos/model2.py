@@ -1,3 +1,17 @@
+##########################################################################################
+#                                     HERRAMIENTAS COMPUTACIONALES                       #
+#                                     SEMANA 06- PyQGis                                  #
+#                                     Modelo 02                                          #
+##########################################################################################
+
+##########
+# Modelos desarrollados en clase y comentarios sobre los mismos
+# Docente: Gibbons Amelia
+# Alumnos : Amaya Elard, Guerrero Francisco
+# Fecha : 25 Jul 2021
+##########
+
+
 """
 Model exported as python.
 Name : modelo-2
