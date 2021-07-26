@@ -44,7 +44,8 @@ class Model4a(QgsProcessingAlgorithm):
         results = {}
         outputs = {}
 
-        # Corregir geometrías wlds
+        # Corregir geometrías  defectuosas en la visualizacion usando la funcion fixgeometries  para el layer clean
+
         alg_params = {
             'INPUT': '/Users/apple/Documents/MEcon/Trim2/Herramientas/SEMANA06/output/clean.shp',
             'OUTPUT': parameters['Fixgeo_wlds']
@@ -56,7 +57,7 @@ class Model4a(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Corregir geometrías countries
+        # Corregir geometrías  defectuosas en la visualizacion usando la funcion fixgeometries  para el layer decountries
         alg_params = {
             'INPUT': '/Users/apple/Documents/MEcon/Trim2/Herramientas/SEMANA06/data/ne_10m_admin_0_countries.shp',
             'OUTPUT': parameters['Fixgeo_countries']
@@ -68,7 +69,7 @@ class Model4a(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Intersección
+        # Aquí hacemos la interseccion mediante el campo GID
         alg_params = {
             'INPUT': outputs['FixGeo_Wlds']['OUTPUT'],
             'INPUT_FIELDS': ['GID'],
@@ -84,7 +85,7 @@ class Model4a(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Estadísticas por categorías
+        # Aqui se obtienen los codigos por categorías del layer de interseccion, luego de esto se exporta  a un archivo csv
         alg_params = {
             'CATEGORIES_FIELD_NAME': ['ADMIN'],
             'INPUT': outputs['INTSC']['OUTPUT'],
