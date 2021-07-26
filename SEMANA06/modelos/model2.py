@@ -31,20 +31,18 @@ from qgis.core import QgsProcessingParameterRasterDestination
 from qgis.core import QgsCoordinateReferenceSystem
 import processing
 
-
+# Nombramos y damos inicio al Modelo 2 
 class Model2(QgsProcessingAlgorithm):
-
+    # Programamos para obtener un solo layer
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterRasterDestination('Suitout', 'suitout', createByDefault=True, defaultValue=None))
-
+    # Ejecutamos dos algoritmos
     def processAlgorithm(self, parameters, context, model_feedback):
-        # Use a multi-step feedback, so that individual child algorithm progress reports are adjusted for the
-        # overall progress through the model
         feedback = QgsProcessingMultiStepFeedback(2, model_feedback)
         results = {}
         outputs = {}
 
-        # Reproyeccion
+        # Proyectamos el raster hdr.adf
         alg_params = {
             'DATA_TYPE': 0,
             'EXTRA': '',
@@ -67,7 +65,7 @@ class Model2(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Extraccion
+        # Extraemos la proyección para crear una nueva proyección permanente del raster
         alg_params = {
             'INPUT': outputs['Reproyeccion']['OUTPUT'],
             'PRJ_FILE_CREATE': True
