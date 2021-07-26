@@ -33,6 +33,7 @@ import processing
 class Model3(QgsProcessingAlgorithm):
 
     def initAlgorithm(self, config=None):
+        # Se hace el nexo entre variables dentro de QGIS
         self.addParameter(QgsProcessingParameterFeatureSink('Fixgeo_3', 'fixgeo_3', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, supportsAppend=True, defaultValue=None))
         self.addParameter(QgsProcessingParameterFeatureSink('Landq', 'landq', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, supportsAppend=True, defaultValue=None))
         self.addParameter(QgsProcessingParameterFeatureSink('Pop1800', 'pop1800', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, supportsAppend=True, defaultValue=None))
@@ -48,6 +49,7 @@ class Model3(QgsProcessingAlgorithm):
         results = {}
         outputs = {}
 
+        # Se arreglan las geometrias del shapefile countries
         alg_params = {
             'INPUT': '/Users/apple/Documents/MEcon/Trim2/Herramientas/SEMANA06/data/ne_10m_admin_0_countries.shp',
             'OUTPUT': parameters['Fixgeo_3']
@@ -59,6 +61,7 @@ class Model3(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
+          # Se eliminan las columnas innecesarias del shapefile
         alg_params = {
             'COLUMN': ['featurecla','scalerank','LABELRANK','SOVEREIGNT','SOV_A3','ADM0_DIF','LEVEL','TYPE','ADM0_A3','GEOU_DIF','GEOUNIT','GU_A3','SU_DIF','SUBUNIT','SU_A3','BRK_DIFF','NAME','NAME_LONG','BRK_A3','BRK_NAME','BRK_GROUP','ABBREV','POSTAL','FORMAL_EN','FORMAL_FR','NAME_CIAWF','NOTE_ADM0','NOTE_BRK','NAME_SORT','NAME_ALT','MAPCOLOR7','MAPCOLOR8','APCOLOR9','MAPCOLOR13','POP_EST','POP_RANK','GDP_MD_EST','POP_YEAR','LASTCENSUS','GDP_YEAR','ECONOMY','INCOME_GRP','WIKIPEDIA','FIPS_10_','ISO_A2','ISO_A3_EH','ISO_N3','UN_A3','WB_A2','WB_A3','WOE_ID','WOE_ID_EH','WOE_NOTE','ADM0_A3_IS','ADM0_A3_US','ADM0_A3_UN','ADM0_A3_WB','CONTINENT','REGION_UN','SUBREGION','REGION_WB','NAME_LEN','LONG_LEN','ABBREV_LEN','TINY','HOMEPART','MIN_ZOOM','MIN_LABEL','MAX_LABEL','NE_ID','WIKIDATAID','NAME_AR','NAME_BN','NAME_DE','NAME_EN','NAME_ES','NAME_FR','NAME_EL','NAME_HI','NAME_HU','NAME_ID','NAME_IT','NAME_JA','NAME_KO','NAME_NL','NAME_PL','NAME_PT','NAME_RU','NAME_SV','NAME_TR','NAME_VI','NAME_ZH','MAPCOLOR9'],
             'INPUT': outputs['Fix_Geometries']['OUTPUT'],
@@ -70,7 +73,22 @@ class Model3(QgsProcessingAlgorithm):
         feedback.setCurrentStep(2)
         if feedback.isCanceled():
             return {}
-
+        
+        #######
+        # En esta sección utilizaremos la función zonal statistics sobre cada 
+        # raster los cuales están especificados en las líneas 57 y 58,
+        # esto se hara por medio de un ciclo iterativo.
+        # Las capas raster son matrices que brindan cierta información relevante
+        # sobre alguna caractéristica o evento sobre un área terreno.
+        # Por ejemplo una capa raster puede mostrar la informacion de elevación 
+        # de un terrno, con la funciones adecuadadas como zonal statistics nos 
+        # permite entrar la media, desviación estándar la suma entre otros.
+        
+        
+        # Se aplica 5 veces la función zonal statistics 5 veces los cuales son,
+        # para la calidad del terreno, la poblacion en los años 1800, 1900 y 2000
+        # y las caracteristicas topograficas 
+        #####
         alg_params = {
             'COLUMN_PREFIX': 'landq_',
             'INPUT': outputs['Remove_fields']['OUTPUT'],
@@ -147,6 +165,8 @@ class Model3(QgsProcessingAlgorithm):
         feedback.setCurrentStep(7)
         if feedback.isCanceled():
             return {}
+        
+        # Luego de computar las estadisticas zonales se procede a guardar los resultados en formato csv
 
         alg_params = {
             'DATASOURCE_OPTIONS': '',
