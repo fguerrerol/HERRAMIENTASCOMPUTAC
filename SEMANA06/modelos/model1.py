@@ -28,9 +28,9 @@ from qgis.core import QgsProcessingMultiStepFeedback
 from qgis.core import QgsProcessingParameterFeatureSink
 import processing
 
-
+# Creamos el algoritmo y damos inicio al Modelo 1
 class Model1(QgsProcessingAlgorithm):
-
+    # Definimos la función "initAlgorithm" con la variable "self"
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFeatureSink('Autoinc_id', 'autoinc_id', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, supportsAppend=True, defaultValue=None))
         self.addParameter(QgsProcessingParameterFeatureSink('Length', 'length', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, supportsAppend=True, defaultValue=None))
@@ -38,15 +38,13 @@ class Model1(QgsProcessingAlgorithm):
         self.addParameter(QgsProcessingParameterFeatureSink('Output_less_than_11', 'OUTPUT_L_11', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, defaultValue=None))
         self.addParameter(QgsProcessingParameterFeatureSink('Fix_geo', 'fix_geo', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, supportsAppend=True, defaultValue=None))
         self.addParameter(QgsProcessingParameterFeatureSink('Wldsout', 'wldsout', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, supportsAppend=True, defaultValue=None))
-
+    # Definimos otra función que usará a self para obtener seis layers
     def processAlgorithm(self, parameters, context, model_feedback):
-        # Use a multi-step feedback, so that individual child algorithm progress reports are adjusted for the
-        # overall progress through the model
         feedback = QgsProcessingMultiStepFeedback(6, model_feedback)
         results = {}
         outputs = {}
 
-        # Correcion de geometrias defectuosas
+        # Primero corregimos las geometrías defectuosas, utilizamos el archivo langa.shp y el comando 'Fix_geo'
         alg_params = {
             'INPUT': '/Users/apple/Documents/MEcon/Trim2/Herramientas/SEMANA06/langa.shp',
             'OUTPUT': parameters['Fix_geo']
@@ -58,7 +56,7 @@ class Model1(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Añadir ID
+        # Añadimos un ID que comienza desde el 1 
         alg_params = {
             'FIELD_NAME': 'GID',
             'GROUP_FIELDS': [''],
@@ -76,7 +74,7 @@ class Model1(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Proceso 1
+        # Generamos una variable que se llama 'length' cuyos valores son iguales a la cantidad de caracteres que tiene la variable NAME_PROP utilizando "fieldcalculator"
         alg_params = {
             'FIELD_LENGTH': 2,
             'FIELD_NAME': 'length',
@@ -93,7 +91,7 @@ class Model1(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Filtro
+        # Creamos y ejecutamos el filtro para descartar las observaciones cuyo Length(NAME_PROP) es mayor a 10 empleando el "filter"
         alg_params = {
             'INPUT': outputs['Field_Calculator']['OUTPUT'],
             'OUTPUT_L_11': parameters['Output_less_than_11']
@@ -105,7 +103,7 @@ class Model1(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Limitador
+        # Clonamos "NAME_PROP" y la nombramos 'Inm' usando fieldcalculator
         alg_params = {
             'FIELD_LENGTH': 10,
             'FIELD_NAME': 'Inm',
@@ -122,7 +120,7 @@ class Model1(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Remocion de columnas innecesarias
+        # Quitamos las columnas no pertinentes usando deletecolumn
         alg_params = {
             'COLUMN': ['ID_ISO_A3','ID_ISO_A2','ID_FIPS','NAM_LABEL','NAME_PROP','NAME2','NAM_ANSI','CNT','C1','POP','LMP_POP1','G','LMP_CLASS','FAMILYPROP','FAMILY','langpc_km2','length'],
             'INPUT': outputs['Field_Calculator_Clone']['OUTPUT'],
