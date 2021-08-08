@@ -11,7 +11,7 @@ Final
 
 Costo enDólares
 
-Ruta2.- 
+Ruta2.- Shortest
 
 Inicio: 
 
@@ -20,7 +20,7 @@ Final:
 Costo en Dólares
 
 
-Ruta3.-
+Ruta3.- Shortest
 
 
 Inicio
