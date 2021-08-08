@@ -5,26 +5,26 @@ Ruta1.-
 
 Tipo de ruta : Shortest
 
-Inicio:
+Inicio: Concepcion
 
-Final
+Final: Monte caseros
 
 Costo enDólares
 
 Ruta2.- Shortest
 
-Inicio: 
+Inicio: Esquina
 
-Final:
+Final: Corrientes
 
 Costo en Dólares
 
 
-Ruta3.- Shortest
+Ruta3.- Fastest
 
 
-Inicio
+Inicio :Concepción
 
-Final
+Final : Paso de los libres
 
 Costo en Dólares
