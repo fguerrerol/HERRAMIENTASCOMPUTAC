@@ -8,4 +8,6 @@ carga consumen muchisimo que vehículos unipersonales y por el estilo).
 
 Usamos el valor para estados unidos así que tendria que modificarse por país.
 
+
+El mapa es el archivo " Goya-Santotome.png" , los demas archivos son para que se pueda visualizar la carpeta
 Para esto no pudimos decidirnos entre rutas a escoger así que escogimos 3 rutas alternativas más.
