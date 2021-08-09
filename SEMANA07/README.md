@@ -8,4 +8,4 @@ carga consumen muchisimo que vehículos unipersonales y por el estilo).
 
 Usamos el valor para estados unidos así que tendria que modificarse por país.
 
-Para esto no pudimos decidirnos entre rutas a escoger así que escogimos 3 rutas.
+Para esto no pudimos decidirnos entre rutas a escoger así que escogimos 3 rutas alternativas más.
