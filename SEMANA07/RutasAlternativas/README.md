@@ -9,15 +9,15 @@ Inicio: Concepcion
 
 Final: Monte caseros
 
-Costo enDólares
+Costo enDólares : 31.12
 
 Ruta2.- Shortest
 
 Inicio: Esquina
 
-Final: Corrientes
+Final: Corrientes (Aparece como Capital en la matriz OD)
 
-Costo en Dólares
+Costo en Dólares : 28.20
 
 
 Ruta3.- Fastest
@@ -25,6 +25,6 @@ Ruta3.- Fastest
 
 Inicio :Concepción
 
-Final : Paso de los libres
+Final : Paso de los libres (Aparece como Departmaento Paso de los libres)
 
-Costo en Dólares
+Costo en Dólares : 31.64 dólares
