@@ -11,6 +11,6 @@ Usamos el valor para estados unidos así que tendria que modificarse por país.
 
 El mapa es el archivo " Goya-Santotome.png" , los demas archivos son para que se pueda visualizar la carpeta "Maps&Routes"
 
-
+El precio en dólares en esta ruta es de 34 dólares con 12 centavos, 
 
 Para esto no pudimos decidirnos entre rutas a escoger así que escogimos 3 rutas alternativas más.
